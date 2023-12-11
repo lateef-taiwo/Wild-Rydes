@@ -8,6 +8,12 @@ on:
       - '*'
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Git Safe Directory
+        run: git config --global --add safe.directory /github/workspace
+
   sync:
     runs-on: ubuntu-latest
     steps:
