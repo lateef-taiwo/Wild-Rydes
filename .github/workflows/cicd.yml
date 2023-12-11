@@ -26,7 +26,7 @@ jobs:
         CODECOMMIT_IAM_PASSWORD: ${{ secrets.CODECOMMIT_IAM_PASSWORD }}
 
     - name: Configure Git for CodeCommit
-      run: git config --global credential.helper 'store --file ~/.git-credentials'
+      run: git config --global credential.helper '!aws codecommit credential-helper $@'
 
  #   - name: Add AWS CodeCommit Remote
  #     run: git remote add codecommit $CODECOMMIT_REPO_URL
