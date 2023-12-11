@@ -1,38 +1,30 @@
-name: Continuous Integration for Serverless Web App
+name: Continuous integration for serverless web application
 
 on:
   push:
+    tags-ignore:
+      - '*'
     branches:
-      - main
-  workflow_dispatch:
+      - '*'
 
 jobs:
-  build:
+  sync:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Set up AWS Credentials
-      run: echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" > $GITHUB_WORKSPACE/.env
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1.0.3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    - name: Set up CodeCommit Credentials
-      run: echo "[credential]" >> ~/.git-credentials && echo "    helper = !aws codecommit credential-helper $@" >> ~/.git-credentials
-      env:
-        CODECOMMIT_REPO_URL: ${{ secrets.CODECOMMIT_REPO_URL }}
-        CODECOMMIT_GIT_CREDENTIAL: ${{ secrets.CODECOMMIT_GIT_CREDENTIAL }}
-        CODECOMMIT_IAM_USERNAME: ${{ secrets.CODECOMMIT_IAM_USERNAME }}
-        CODECOMMIT_IAM_PASSWORD: ${{ secrets.CODECOMMIT_IAM_PASSWORD }}
-
-    - name: Configure Git for CodeCommit
-      run: git config --global credential.helper '!aws codecommit credential-helper $@'
-
-    - name: Add AWS CodeCommit Remote
-      run: git remote add wild-rides-repo $CODECOMMIT_REPO_URL
-
-    - name: Push to CodeCommit
-      run: git push codecommit HEAD:main
-      env:
-        GIT_COMMITTER_NAME: $GIT_COMMITTER_NAME
-        GIT_COMMITTER_EMAIL: $GIT_COMMITTER_EMAIL
+      - name: Sync up to CodeCommit
+        uses: tsgit18/sync-up-to-codecommit-action@v1
+        with:
+          repository_name: wild-rides-repo
+          aws_region: us-east-1
