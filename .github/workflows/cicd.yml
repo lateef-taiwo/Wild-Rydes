@@ -1,14 +1,30 @@
-name: Continuous Integration for serveless web app
+name: Continuous Integration for Serverless Web App
 
 on:
-    push:
-        branches:
-            -   main
-    workflow_dispatch:
-jobs:
-    build:
-        runs-on: ubuntu-latest
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS Credentials
+      run: echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" > $GITHUB_WORKSPACE/.env
+
+    - name: Configure Git for CodeCommit
+      run: |
+        git config --global credential.helper '!aws codecommit credential-helper $@'
+        git config --global credential.UseHttpPath true
+
+    - name: Add AWS CodeCommit Remote
+      run: git remote add codecommit $(aws codecommit get-repository --repository-name YOUR_REPO_NAME --query 'repositoryMetadata.cloneUrlHttp' --output text)
+
+    - name: Push to CodeCommit
+      run: |
+        git push codecommit HEAD:main
