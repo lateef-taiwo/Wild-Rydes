@@ -1,7 +1,7 @@
 
-#!/bin/bash
+#!/bin/zsh
 
-#set -ue
+set -ue
 
 RepositoryName="${INPUT_REPOSITORY_NAME}"
 AwsRegion="${INPUT_AWS_REGION}"
