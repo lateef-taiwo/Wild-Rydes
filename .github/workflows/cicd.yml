@@ -28,7 +28,7 @@ jobs:
           aws-region: us-east-1  
 
       - name: Sync up to CodeCommit
-        uses: afinkorea/sync-up-to-codecommit-action@v1
+        uses: lateef-taiwo/Wild-Rydes@main
         with:
           repository_name: wild-rides-repo
           aws_region: us-east-1
