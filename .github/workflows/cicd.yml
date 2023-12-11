@@ -28,8 +28,8 @@ jobs:
     - name: Configure Git for CodeCommit
       run: git config --global credential.helper '!aws codecommit credential-helper $@'
 
- #   - name: Add AWS CodeCommit Remote
- #     run: git remote add codecommit $CODECOMMIT_REPO_URL
+    - name: Add AWS CodeCommit Remote
+      run: git remote add wild-rides-repo $CODECOMMIT_REPO_URL
 
     - name: Push to CodeCommit
       run: git push codecommit HEAD:main
