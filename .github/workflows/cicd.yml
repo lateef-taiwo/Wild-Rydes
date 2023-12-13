@@ -37,6 +37,6 @@ jobs:
         git config --global credential.UseHttpPath true
         
         git remote add codecommit codecommit::us-east-1://wild-rides-repo
-        git rebase --skip
+       
         git pull --rebase codecommit main
         git push codecommit main
