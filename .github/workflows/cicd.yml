@@ -13,7 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-          fetch-depth: 0
+        fetch-depth: 0
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -25,11 +25,12 @@ jobs:
     - name: Install git-remote-codecommit
       run: |
         pip install git-remote-codecommit    
+
     - name: Sync with AWS CodeCommit
       run: |
         git config --global credential.helper '!aws codecommit credential-helper $@'
         git config --global credential.UseHttpPath true
         
         git remote add codecommit codecommit::us-east-1://wild-rides-repo
-        git pull codecommit main
+        git pull --rebase codecommit main
         git push codecommit main
