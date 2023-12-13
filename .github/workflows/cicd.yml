@@ -26,6 +26,11 @@ jobs:
       run: |
         pip install git-remote-codecommit    
 
+    - name: Configure Git user identity
+      run: |
+        git config --global user.email "taiwolateef55@gmail.com"
+        git config --global user.name "lateef taiwo"
+
     - name: Sync with AWS CodeCommit
       run: |
         git config --global credential.helper '!aws codecommit credential-helper $@'
