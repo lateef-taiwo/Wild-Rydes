@@ -29,8 +29,7 @@ jobs:
       run: |
         git config --global credential.helper '!aws codecommit credential-helper $@'
         git config --global credential.UseHttpPath true
-        git config pull.rebase false
-
-        git remote add codecommit https://git-codecommit.us-east-1.amazonaws.com/v1/repos/wild-rides-repo
-        git pull codecommit main
+        
+        git remote add codecommit codecommit::us-east-1://wild-rides-repo"
+        #git pull codecommit main
         git push codecommit main
