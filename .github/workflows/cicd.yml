@@ -28,8 +28,8 @@ jobs:
 
     - name: Configure Git user identity
       run: |
-        git config --global user.email "taiwolateef55@gmail.com"
-        git config --global user.name "lateef taiwo"
+        git config --global user.email ${{ var.USER_EMAIL}}
+        git config --global user.name ${{ var.USER_NAME}}
 
     - name: Sync with AWS CodeCommit
       run: |
