@@ -38,4 +38,4 @@ jobs:
         
         git remote add codecommit codecommit::us-east-1://wild-rides-repo
        
-        git push codecommit main --force
+        git push codecommit main
