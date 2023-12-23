@@ -22,7 +22,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Install git-remote-codecommit  #package too be used for pushing to codecommit repository
+    - name: Install git-remote-codecommit  #package to be used for pushing to codecommit repository
       run: |
         pip install git-remote-codecommit    
 
